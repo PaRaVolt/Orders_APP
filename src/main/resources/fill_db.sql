@@ -1,0 +1,66 @@
+delete from order_status;
+INSERT INTO order_status (name) values ('Новый');
+INSERT INTO order_status (name) values ('Обрабатывается');
+INSERT INTO order_status (name) values ('Принят');
+INSERT INTO order_status (name) values ('Готов');
+INSERT INTO order_status (name) values ('Возврат');
+INSERT INTO order_status (name) values ('Задержка');
+INSERT INTO order_status (name) values ('Закрыт');
+
+delete from customer;
+INSERT INTO customer (name, surname, phone) values ('Павел','Ващеев', '12');
+INSERT INTO customer (name, surname, phone) values ('Крит','Изнеможейко','123');
+INSERT INTO customer (name, surname, phone) values ('Слава','Аллахов','23');
+INSERT INTO customer (name, surname, phone) values ('Снежана','Холодрыго','124');
+INSERT INTO customer (name, surname, phone) values ('Федя','Синусоев','14');
+INSERT INTO customer (name, surname, phone) values ('Ксюша','Свищ', '125');
+INSERT INTO customer (name, surname, phone) values ('Камаз','Отходов','15');
+INSERT INTO customer (name, surname, phone) values ('Крут','Неимоверов','136');
+INSERT INTO customer (name, surname, phone) values ('Рулон','Обоев','1467');
+INSERT INTO customer (name, surname, phone) values ('Удел','Плебеев','3623');
+
+delete from product_type;
+INSERT INTO product_type (name) values ('Инструмент');
+INSERT INTO product_type (name) values ('Бытовая химия');
+INSERT INTO product_type (name) values ('Еда');
+INSERT INTO product_type (name) values ('Строительные материалы');
+INSERT INTO product_type (name) values ('Хозяйственные товары');
+INSERT INTO product_type (name) values ('Автомобильные запчасти');
+INSERT INTO product_type (name) values ('Товары для животных');
+INSERT INTO product_type (name) values ('Одежда');
+INSERT INTO product_type (name) values ('Обувь');
+INSERT INTO product_type (name) values ('Лекарства');
+
+INSERT INTO product (name, product_type_id, cost) values ('Молоток',(select id from product_type where name='Инструмент'), 1200.00);
+INSERT INTO product (name, product_type_id, cost) values ('Цемент',(select id from product_type where name='Строительные материалы'), 198.50);
+INSERT INTO product (name, product_type_id, cost) values ('Ведро',(select id from product_type where name='Хозяйственные товары'), 500.00);
+INSERT INTO product (name, product_type_id, cost) values ('Стиральный порошок',(select id from product_type where name='Бытовая химия'), 220.50);
+INSERT INTO product (name, product_type_id, cost) values ('Минеральная вода',(select id from product_type where name='Еда'), 10.00);
+INSERT INTO product (name, product_type_id, cost) values ('Отвёртка',(select id from product_type where name='Инструмент'), 170.00);
+INSERT INTO product (name, product_type_id, cost) values ('Штукатурка',(select id from product_type where name='Строительные материалы'), 202.50);
+INSERT INTO product (name, product_type_id, cost) values ('Шпатель',(select id from product_type where name='Хозяйственные товары'), 200.00);
+INSERT INTO product (name, product_type_id, cost) values ('Средство для стёкол',(select id from product_type where name='Бытовая химия'), 120.20);
+INSERT INTO product (name, product_type_id, cost) values ('Чай',(select id from product_type where name='Еда'), 30.00);
+
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='12'), (select id from product where name='Молоток'), (select id from order_status where name='Принят'), 1,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='123'), (select id from product where name='Цемент'), (select id from order_status where name='Обрабатывается'), 10,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='123'), (select id from product where name='Цемент'), (select id from order_status where name='Принят'), 20,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='23'), (select id from product where name='Ведро'), (select id from order_status where name='Готов'), 10,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='124'), (select id from product where name='Стиральный порошок'), (select id from order_status where name='Возврат'), 1,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='14'), (select id from product where name='Минеральная вода'), (select id from order_status where name='Принят'), 1,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='125'), (select id from product where name='Минеральная вода'), (select id from order_status where name='Обрабатывается'), 1,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='125'), (select id from product where name='Минеральная вода'), (select id from order_status where name='Готов'), 2,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='125'), (select id from product where name='Минеральная вода'), (select id from order_status where name='Новый'), 4,NOW());
+INSERT INTO orders (customer_id, product_id, order_status_id, pr_count, order_date) values ((select id from customer where phone='125'), (select id from product where name='Минеральная вода'), (select id from order_status where name='Закрыт'), 1,NOW());
+
+delete from sklad;
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Молоток'), 1);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Цемент'), 20);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Ведро'), 2);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Стиральный порошок'), 10);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Минеральная вода'), 100);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Отвёртка'), 10);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Штукатурка'), 5);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Шпатель'), 1);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Средство для стёкол'), 1);
+INSERT INTO sklad (product_id, pr_count) values ((select id from product where name='Чай'), 0);
